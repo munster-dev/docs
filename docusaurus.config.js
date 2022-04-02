@@ -2,18 +2,18 @@ module.exports = {
   title: 'MunsterJS',
   tagline: 'Simple but powerful javascript framework.',
   url: 'https://munsterjs.com',
-  baseUrl: '/munster-docs/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
-  favicon: 'img/favicon.ico',
-  organizationName: '@munster-dev',
-  projectName: 'munster-docs',
+  favicon: '/img/favicon.ico',
+  organizationName: 'munster-dev',
+  projectName: 'docs',
   themeConfig: {
     navbar: {
       title: 'MunsterJS',
       logo: {
         alt: 'MunsterJS logo',
         // src: 'img/logo.svg'
-        src: 'img/munster.svg'
+        src: '/img/munster.svg'
       },
       items: [
         {
@@ -77,7 +77,7 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/munster-dev/munster-docs/blob/master',
+          editUrl: 'https://github.com/munster-dev/docs/blob/master',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

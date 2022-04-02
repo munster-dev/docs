@@ -12,7 +12,6 @@ module.exports = {
       title: 'MunsterJS',
       logo: {
         alt: 'MunsterJS logo',
-        // src: 'img/logo.svg'
         src: '/img/munster.svg'
       },
       items: [

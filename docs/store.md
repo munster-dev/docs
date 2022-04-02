@@ -97,15 +97,13 @@ Here's how to watch the data changes for each item in the state:
     ...
 </template>
 
-<script>
-    export default class SampleComponent {
-        $connected() {
-            this.$store.random.watch(value => {
-                console.log(value);
-            });
-        }
+export default class SampleComponent {
+    $connected() {
+        this.$store.random.watch(value => {
+            console.log(value);
+        });
     }
-</script>
+}
 ```
 
 :::note

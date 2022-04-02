@@ -5,7 +5,7 @@ module.exports = {
   baseUrl: '/munster-docs/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
-  organizationName: 'mfpjayb',
+  organizationName: '@munster-dev',
   projectName: 'munster-docs',
   themeConfig: {
     navbar: {
@@ -23,7 +23,7 @@ module.exports = {
           position: 'left',
         },
         {
-          href: 'https://github.com/mfpjayb/munster',
+          href: 'https://github.com/munster-dev',
           label: 'GitHub',
           position: 'right',
         }
@@ -63,7 +63,7 @@ module.exports = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/mfpjayb/munster',
+              href: 'https://github.com/munster-dev',
             },
           ],
         },
@@ -77,7 +77,7 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/mfpjayb/munster-docs/blob/master',
+          editUrl: 'https://github.com/munster-dev/munster-docs/blob/master',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

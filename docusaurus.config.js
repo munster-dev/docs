@@ -2,7 +2,7 @@ module.exports = {
   title: 'MunsterJS',
   tagline: 'Simple but powerful javascript framework.',
   url: 'https://munsterjs.com',
-  baseUrl: '/',
+  baseUrl: '/docs/',
   onBrokenLinks: 'throw',
   favicon: '/img/favicon.ico',
   organizationName: 'munster-dev',

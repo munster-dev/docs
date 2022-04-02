@@ -60,7 +60,7 @@ export class RootModule { }
 ```
 
 In the example above, we included the `SampleDirective` plugin to our module.
-Please see [Directives](/docs/directives) for more information how to create a custom directive.
+Please see [Directives](/directives) for more information how to create a custom directive.
 
 ## Declare components
 

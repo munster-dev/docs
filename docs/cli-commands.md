@@ -11,7 +11,7 @@ Here is a list of available commands for munster cli:
 | --- | --- | --- |
 | new           | `mster new <project_name>` | Generate a new munster application. |
 | docs          | `mster docs` | Opens the official munster framework documentation. |
-| generate      | `mster generate <type> <name>` | Generate a munster file based on the given type and name. See [generate types](/cli-commands#generate-types) section for more info. |
+| generate      | `mster generate <type> <name>` | Generate a munster file based on the given type and name. See [generate types](./cli-commands#generate-types) section for more info. |
 
 ## Generate types
 

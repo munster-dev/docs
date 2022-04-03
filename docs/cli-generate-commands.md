@@ -1,8 +1,8 @@
 ---
-id: cli-commands.md
-title: Commands
-sidebar_label: Commands
-slug: /cli-commands
+id: cli-generate-commands.md
+title: Generate commands
+sidebar_label: Generate commands
+slug: /cli-generate-commands
 ---
 
 Here is a list of available commands for munster cli:

@@ -23,11 +23,12 @@ or
 yarn add @munster-dev/router
 ```
 
-## Register the module
+## Register the router module
 
 Router must be registered to the module first before we can use it.
+We can register the individual apis or register the whole router module to the module where we want to use the router.
 
-Here's an example on how to register the router:
+Here's an example on how to register the router module:
 
 ```typescript
 import { Module } from '@munster-dev/core';

@@ -17,10 +17,9 @@ module.exports = {
     ],
     CLI: [
       'cli-installation.md',
-      'cli-commands.md'
-    ],
-    Advance: [
-      'custom-directive.md',
+      'cli-create-application.md',
+      'cli-generate-commands.md',
+      'cli-useful-commands.md'
     ]
   },
 };

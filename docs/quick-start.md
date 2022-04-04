@@ -31,7 +31,7 @@ Start the local development server by running the following command:
 ```bash
 npm start
 ```
-You can preview your site in your browser on [http://localhost:4000](http://localhost:4000)
+We can view our site by pointing our browsers to [http://localhost:4000](http://localhost:4000)
 
 ## Project structure
 

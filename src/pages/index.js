@@ -23,7 +23,7 @@ const features = [
     imageUrl: 'img/munster3.svg',
     description: (
       <>
-        Build small components that manage their own state as a building blocks to build larger applications.
+        Build small components that manages their own state as a building blocks to build larger applications.
       </>
     ),
   },
@@ -34,7 +34,7 @@ const features = [
     description: (
       <>
         It is based on web components for encapsulating components.
-        It can be used in developing a micro frontend applications.
+        It can be use to developing a micro frontend applications.
       </>
     ),
   },

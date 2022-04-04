@@ -5,28 +5,46 @@ sidebar_label: Generate commands
 slug: /cli-generate-commands
 ---
 
-Here is a list of available commands for munster cli:
+CLI is very helpful in generating files for MunsterJS application.
+It makes creating components, services, modules and other files very easy.
 
-| Command | Syntax | Description |
-| --- | --- | --- |
-| new           | `mster new <project_name>` | Generate a new munster application. |
-| docs          | `mster docs` | Opens the official munster framework documentation. |
-| generate      | `mster generate <type> <name>` | Generate a munster file based on the given type and name. See [generate types](./cli-commands#generate-types) section for more info. |
+The syntax for generate command is `mn generate <type> <name>`. The type is the type of file we want to generate and the name is the name of the files to be generated. The name can also be a pathname.
+
+Here is an example command to generate a component.
+
+```bash
+mn generate component hello-world
+```
+
+The command above will generate the files like the following.
+
+```
+hello-world
+    ├── hello-world.logic.ts
+    ├── hello-world.view.tsx
+    └── hello-world.styles.scss
+```
 
 ## Generate types
 
-Here's a list of available types for the generate command:
+Here's a list of available types for generate command:
 
 | Type | Description |
 | --- | --- |
 | component     | Generate a component file. |
-| middleware    | Generate a middleware file. |
-| module        | Generate a module file. |
+| guard         | Generate a route guard that can help the developer to allow or prevent the user from navigating certain paths or viewing components. |
+| service       | Generate a service file that will hold the business logic of the application. |
+| class         | Generate a simple typescript class. |
+| interface     | Generate a typescript interface to describe a data. |
+| module        | Generate a module file to group our components, directives, and other files that are related to the module. |
 
-Here's an example on how to use the generate command:
+For more information about each command, we can check the help feature of the cli.
+The syntax for this is `mn generate <command type> --help`.
+
+Example:
 
 ```bash
-mster generate component sidebar
+mn generate component --help
 ```
 
-This will generate a component file in `src/sidebar.component.html`.
+This will show additional information for the generate component command.

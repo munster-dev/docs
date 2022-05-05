@@ -5,7 +5,7 @@ sidebar_label: Custom directive
 slug: /custom-directive
 ---
 
-Custom directives are classes that manipulates an element and our munster application.
+Custom directives are classes that manipulates an element and our MunsterJS application.
 Directive is sometimes called as namespace in this framework since the syntax to write directives in view is `<namespace>:<name>={<value>}`.
 The value is not required.
 

@@ -33,8 +33,7 @@ const features = [
     imageUrl: 'img/munster4.svg',
     description: (
       <>
-        It is based on web components for encapsulating components.
-        It can be use to developing a micro frontend applications.
+        It is based on web components which is good for building loosely coupled components.
       </>
     ),
   },

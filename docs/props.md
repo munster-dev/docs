@@ -68,7 +68,7 @@ Here's an example on how to pass properties to child component:
 ## Pass props from logic
 
 This feature allows us to pass props from parent component to child.
-This is very helpful when building munster components intended to be compatible with other javascript frameworks.
+This is very helpful when building MunsterJS components intended to be compatible with other javascript frameworks.
 
 Here's an example on how to pass props from logic:
 

@@ -5,8 +5,8 @@ sidebar_label: Installation
 slug: /cli-installation
 ---
 
-Munster cli helps developers to create a working application out of the box.
-It has many useful commands like generating files for our munster app.
+MunsterJS cli helps developers to create a working application out of the box.
+It has many useful commands like generating files for our MunsterJS app.
 
 To install the cli we just need to run the following command:
 
@@ -24,7 +24,7 @@ If the installation is successful it should display the version of the MunsterJS
 
 We can find help with the cli using the `mn --help` command.
 
-After installing the cli, we can now start creating our new munster project by running this command:
+After installing the cli, we can now start creating our new MunsterJS project by running this command:
 
 ```bash
 mn new my-app

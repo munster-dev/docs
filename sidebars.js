@@ -5,8 +5,8 @@ module.exports = {
       'quick-start.md',
     ],
     'Main Concept': [
-      'module.md',
       'component.md',
+      'module.md',
       'change-detection.md',
       'directives.md',
       'custom-directive.md'

@@ -48,7 +48,6 @@ node_modules
 src
     ├── index.html
     ├── index.ts
-    ├── polyfill.ts
     ├── styles.scss
     ├── assets
     └── environments
@@ -69,7 +68,6 @@ src
 * `src/`                        A directory that contains the source code and assets of your application.
 * `src/index.html`              The main HTML page that is served when someone visits your application.
 * `src/index.ts`                The main entry point of your application. It bootstrap the root module of the entire project.
-* `src/polyfill.ts`             Contains codes that makes the codes compatible to browsers.
 * `src/styles.css`              Contains the global styles of the application.
 * `src/assets/`                 This is the recommended directory to put all of the asset files.
 * `src/environments/`           Contains the different environment files for the project.

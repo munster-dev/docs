@@ -6,85 +6,99 @@ slug: /component
 ---
 
 Components are the most basic building block of an application.
-A component is composed of view, logic and styles.
-In this framework, you have an option to put the view and logic in a single or a separate files.
+It is composed of template, logic and styles.
+It is used to split the UI into small and reusable pieces of codes.
 
 ## Structure
 
-### Logic and view on a single file
+### Logic and template
 
-Here's an example of logic and view on a single file.
+The logic and the template is combined in a single file.
+It is a typescript class that has a `@Component` decorator and a `render()` method that returns a jsx elements.
 
 ```typescript
-import './sample.styles.scss';
 import { Component } from '@munster-dev/core';
 
-@Component({
-    selector: 'app-sample'
-})
-export class SampleComponent {
-    $render() {
-        return <h1>Simple component works!</h1>
+@Component('app-greeting')
+export class Greeting {
+    render() {
+        return <h1>Hello World!</h1>
     }
 }
 ```
 
-The `SampleComponent` class can have the methods and properties for the component's logic and the `$render` method will return a jsx which is the components view.
+The `@Component` decorator has two parameters.
+First is the component selector and second is what type of custom element constructor the component is.
+The second argument is optional and the default value is `HTMLElement`.
 
-### Multiple file component
-
-The view, logic and styles of a component can also be separated into different files.
-View can have `.html`, logic can have `.js` and styles can have `.css` extension.
-
-Here's an example on how to make a multiple file component:
-
-#### View
-```html
-<!-- ./sample.view.tsx -->
-<h1>Sample Component</h1>
-```
-
-All html element in view must be inside the template tag and template tag must have a single child only.
-
-#### Style
-```css
-/* ./sample.styles.scss */
-h1 {
-    color: red;
-}
-```
-
-#### Logic
+Ex.
 ```typescript
-// ./sample.logic.ts
-import './sample.styles.scss';
 import { Component } from '@munster-dev/core';
 
-@Component({
-    selector: 'app-sample',
-    view: './sample.view'
-})
-export class SampleComponent {
+@Component('app-custom-button', HTMLButtonElement)
+export class CustomButton {
+    render() {
+        return <button>Click Me</button>
+    }
+}
+```
+### Styles
+
+MunsterJS uses `sass` by default but we can also use other css frameworks depending on our webpack configuration.
+This styles will only affect it's component and will have no effect on it's parent and child components.
+
+Component styles is imported directly to the `.component.tsx` file.
+
+Ex.
+```typescript
+import './greeting.styles.scss';
+import { Component } from '@munster-dev/core';
+
+@Component('app-greeting')
+export class Greeting {
+    render() {
+        return <h1>Hello World!</h1>
+    }
 }
 ```
 
-Please take note of the `@Component` decorator. The template and style must be imported and passed to the @Component decorator.
+In order for the component styles to work properly,
+the component and styles must have the same filename with `.component.tsx` extension for the component and `.styles.scss` extension for the styles.
+
+Ex.
+
+```
+greeting
+    ├── greeting.component.tsx
+    └── greeting.styles.scss
+```
 
 ## Define component
 
-Component must be defined in a module before we can use it.
+Component must be defined before we can use it.
+Since MunsterJS components are web components, we can use the `customElement.define` as long as we have the MunsterJS polyfill imported before defining the components.
 
-Here's an example on how to define a component in a module:
-
+Ex.
 ```javascript
-import { Module } from '@munster-dev/core';
-import { SampleComponent } from './sample.logic.tsx';
+// index.ts
+import '@munster-dev/core/polyfill';
+import { Greeting } from './greeting.component';
 
-@Module({
-    components: [SampleComponent]
-})
-export class RootModule { }
+customElement.define('app-greeting', Greeting);
 ```
+We can also use the selector defined in the `@Component` decorator.
+```javascript
+// index.ts
+import '@munster-dev/core/polyfill';
+import { getSelector } '@munster-dev/core';
+import { Greeting } from './greeting.component';
+
+customElement.define(getSelector(Greeting), Greeting);
+```
+
+:::note
+We should only import the polyfill once. It is recommended that we import the polyfill at the top of our entry point.
+:::
 
 ## Data binding
 

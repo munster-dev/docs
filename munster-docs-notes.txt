@@ -13,7 +13,7 @@
 - Main concept
 	- Component
 		- what is MunsterJS component
-		- structur
+		- structure
 		- define component
 		- register component to a module
 		- component directives

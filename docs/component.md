@@ -100,6 +100,257 @@ customElement.define(getSelector(Greeting), Greeting);
 We should only import the polyfill once. It is recommended that we import the polyfill at the top of our entry point.
 :::
 
+
+## Register component to a module
+
+For the component to be available for other components in a module, we need to register the component to the module.
+Registered component does not need to be defined using `customElement.define`.
+
+To register the component, we just need to pass the component to the components array in a module.
+
+Ex.
+
+```typescript
+import { Module, BaseModule } from '@munster-dev/core';
+import { Greeting } from './greeting.component';
+
+@Module({
+    components: [Greeting]
+})
+export class AppModule extends BaseModule { }
+```
+
+:::note
+Components must be registered to a one module only.
+:::
+
+Components must be registered to a one module only.
+If we want to use the component inside other module, we just need to export the component from it's module.
+Please see [Module](./module) for more information about exporting a component from it's module.
+
+## Render a component into view
+
+To render a component into view, we just need to call it's selector inside the template.
+
+Ex.
+
+```typescript
+    <div>
+        <app-greetings></app-greetings>
+    </div>
+```
+or
+```typescript
+    <div>
+        <app-greetings />
+    </div>
+```
+
+In the example above, the greeting component will be rendered in the view inside the `<app-greeting />` element as a web component as long as the greeting component is defined in a module or using the `customElement.define` function.
+
+## Other web components
+
+Web components that are not made using MunsterJS will also work inside a MunsterJS project.
+We just need to register the web component's selector as an external web component using `externalComponent` function found in the core package.
+
+Ex.
+
+```typescript
+// src/index.ts
+import { externalComponent as ec } from '@munster-dev/core';
+
+ec('external-web-component');
+ec('another-external-web-component');
+```
+
+It is recommended that we register the external components inside `src/index.ts` file.
+
+## Component directives
+
+To use directives inside a component we need to register the directives to the component using `@Directives` decorator.
+After we register the directive, we can now use it inside the component's template.
+
+Please see [Directives](./directives) for more information about directives.
+
+Ex.
+
+```typescript
+import { Component, Directives } from '@munster-dev/core';
+import { HighlightDirective } from './highlight.directive';
+
+@Directives(HighlightDirective)
+@Component('app-greeting')
+export class Greeting {
+    render() {
+        return <h1 highlight:color="red">Hello World!</h1>
+    }
+}
+```
+
+Directives can also be registered in a module so that it will be available to all the components registered in the module.
+
+Please see [Module](./module) for more information about registering directives into a module.
+
+## Component pipes
+
+To use pipes inside a component we need to register the pipes to the component using `@Pipes` decorator.
+After we register the pipe, we can now use it inside the component's logic and template.
+
+Please see [Pipes](./pipes) for more information about pipes.
+
+Ex.
+
+```typescript
+import { Component, Pipes } from '@munster-dev/core';
+import { UppercasePipe } from './uppercase.pipe';
+
+@Pipes(UppercasePipe)
+@Component('app-greeting')
+export class Greeting {
+
+    greeting = 'Hello World!';
+
+    render() {
+        return <h1>{this.greeting | uppercase}</h1>
+    }
+}
+```
+
+To use the pipe inside the component's logic we can inject `PipeService` into our component's constructor.
+
+Ex.
+
+```typescript
+import { Component, Pipes, PipeService } from '@munster-dev/core';
+import { UppercasePipe } from './uppercase.pipe';
+
+@Pipes(UppercasePipe)
+@Component('app-greeting')
+export class Greeting {
+
+    greeting = 'Hello World!';
+
+    constructor(private pipeService: PipeService) {}
+
+    uppercaseText(text: string) {
+        return this.pipeService.transform('uppercase', text);
+    }
+
+    render() {
+        return <h1>{this.uppercaseText(this.greeting)}</h1>
+    }
+}
+```
+
+Pipes can also be registered in a module so that it will be available to all the components registered in the module.
+
+Please see [Module](./module) for more information about registering pipes into a module.
+
+## component services
+
+To use services inside a component we need to register the services to the component using `@Services` decorator.
+After we register the service, we can now use it inside the component's logic and view.
+
+Please see [Services](./services) for more information about services.
+
+Ex.
+
+```typescript
+import { Component, Services } from '@munster-dev/core';
+import { GreetingService } from './greeting.service';
+
+@Services(GreetingService)
+@Component('app-greeting')
+export class Greeting {
+
+    constructor(private greetingService: GreetingService) { }
+
+    render() {
+        return <h1>{this.greetingService.getMessage()}</h1>
+    }
+}
+```
+
+Services can also be registered in a module so that it will be available to all the components registered in the module.
+
+Please see [Module](./module) for more information about registering services into a module.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Data binding
 
 Data binding is a way to synchronize the data from logic to view and vise versa.

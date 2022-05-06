@@ -8,8 +8,10 @@ module.exports = {
       'component.md',
       'module.md',
       'event-handling.md',
-      'change-detection.md',
       'data-binding.md',
+      'change-detection.md',
+      'props.md',
+      'lifecycle-hooks.md',
       'directives.md',
       'custom-directive.md'
     ],

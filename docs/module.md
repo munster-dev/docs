@@ -5,97 +5,107 @@ sidebar_label: Module
 slug: /module
 ---
 
-Every component of an application is a part of a module.
-This is a way to group components, plugins and other part of application that are related to each other.
+Module is a way to group components, directives, services, pipes and modules of application that are related to each other.
+This feature is very helpful in organizing the codes to make the project more maintainable as it grows in scale.
+Another cool thing for a MunsterJS module is that it is lazy loaded when used in a route.
 
-## Module root component
+## Installation
 
-Every module has a root component which will be displayed when a module is mounted to the dom tree.
+Module is not directly available in the core package so we need to install it first if not yet installed before we can use it.
+To install this package, we can run the following command in the root directory of our project.
+
+```bash
+npm install @munster-dev/module
+```
+or
+```bash
+yarn add @munster-dev/module
+```
+
+## Root component
+
+Some module has a root component.
+This component is the one being mounted in the dom tree when the module is used in a route.
+Root component is the last component to be defined to make sure all the child components are already defined.
+
+Ex.
 
 ```typescript
-import { Module } from "@munster-dev/core";
-import { RootComponent } from "./root.component";
+import { Module, BaseModule } from "@munster-dev/core";
+import { App } from "./app.component";
 
 @Module({
-    rootComponent: RootComponent
+    root: App
 })
-export class AppModule {}
+export class AppModule extends BaseModule {}
 ```
 
-In this example, `RootComponent` is the root component.
+In this example, `App` is the root component.
 
-## Mount to dom tree
+## Register components
 
-Module must be mounted to the dom tee first before we can interact with its components.
+Components can be registered to a module so that they can interact with each other.
 
-```javascript
-import { Module } from '@munster-dev/core';
-import { RootComponent } from './root.component';
+For example, we have a parent component and a child component.
+The child component is rendered inside the template of the parent module.
+So the parent and child module needs to be registered in the module.
 
-@Module({
-    rootComponent: RootComponent
-})
-export class RootModule { }
-```
-
-In the example code above, the selector of the root component is `root-component`.
-The tag name when mounting the component will be `<app-root-component></app-root-component>`.
-
-## Include a directive
-
-A directive must be included in the directives array of a module before the components under this module can use it.
-
-Here's an example on how to use a directive:
-
-```javascript
-import { Module } from '@munster-dev/core';
-import { CustomDirective } from './custom.directive';
-
-@Module({
-    directives: [
-        CustomDirective
-    ]
-})
-export class RootModule { }
-```
-
-In the example above, we included the `SampleDirective` plugin to our module.
-Please see [Directives](./directives) for more information how to create a custom directive.
-
-## Declare components
-
-A component must be declared in a module before it can be used inside our application.
-
-Here's an example on how to declare a component:
+Ex.
 
 ```typescript
-import { Module } from '@munster-dev/core';
-import { SampleComponent } from './sample.component';
+import { Module, BaseModule } from '@munster-dev/module';
+import { Parent } from './parent.component';
+import { Child } from './child.component';
 
 @Module({
-    components: [
-        SampleComponent
-    ]
+    components: [Parent, Child]
 })
-export class RootModule { }
+export class AppModule extends BaseModule { }
 ```
 
-To declare a component, we just pass the component to the components array in a module.
+:::note
+Components must be registered to a one module only.
+:::
 
-## Export directive
+## Export components
 
-Directive in submodule needs to be exported if we want it to be available in components registered in the parent module.
+Components defined in a module cannot be defined in another module.
 
-Here's an example on how to export a directive:
+For the example above,
+if the parent and child components are registered in different modules,
+we need to export the component that will be used in another module and import the module to the module that needs the exported component.
 
-```javascript
-import { Module } from '@munster-dev/core';
-import { CustomDirective } from './custom.directive';
+Ex.
+#### Child module
+```typescript
+import { Module, BaseModule } from '@munster-dev/module';
+import { Child } from './child.component';
 
 @Module({
     exports: {
-        directives: [CustomDirective]
+        components: [Child]
     }
 })
-export class RootModule { }
+export class ChildModule extends BaseModule { }
 ```
+
+#### Parent module
+```typescript
+import { Module, BaseModule } from '@munster-dev/module';
+import { Parent } from './parent.component';
+import { ChildModule } from './child.module';
+
+@Module({
+    components: [Parent],
+    modules: [ChildModule]
+})
+export class ParentModule extends BaseModule { }
+```
+
+## Register services
+## Export services
+## Register directives
+## Export directives
+## Register pipes
+## Export pipes
+## Import modules

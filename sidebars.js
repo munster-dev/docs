@@ -11,6 +11,7 @@ module.exports = {
       'data-binding.md',
       'change-detection.md',
       'props.md',
+      'observed-attributes.md',
       'lifecycle-hooks.md',
       'directives.md',
       'custom-directive.md'

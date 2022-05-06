@@ -47,7 +47,7 @@
 	- Props
 		- what is MunsterJS props
 		- syntax
-		- best practise // use bind decorator
+		- best practice // use bind decorator
 	- Attributes
 		- what is MunsterJS attributes
 		- string attributes

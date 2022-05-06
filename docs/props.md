@@ -5,109 +5,134 @@ sidebar_label: Props
 slug: /props
 ---
 
-Props plugin allows developers to pass any type of data from parent to child.
-It is more advance than attributes since attributes can only pass string or number to child.
-Props are namespaced with `prop:` followed by the property name. The syntax of props is written as `props:<name>=<data>`.
+Props is a directive that allows developers to pass any type of data from parent to child.
+It is more advance than [attributes](./attributes) since attributes can only pass string, number or boolean to child component.
 
-## Register the plugin
+## Syntax
 
-Props plugin needs to be registered in a module before we can use it.
+Props directives are namespaced with `prop` followed by the property name. The syntax of props is written as `prop:<name>=<data>`.
 
-Here's an example on how to register this plugin:
+Ex.
 
-```javascript
-import { Module, Props } from 'munster';
-
-export class RootModule extends Module {
-    plugins = [
-        Props
-    ];
-}
+```
+prop:message="Hello World!"
 ```
 
-## Pass props to child
+## Pass props from parent to child
 
 Here's an example on how to pass properties to child component:
 
-#### Parent component
-```javascript
-<template>
-    <app-child-component
-        prop:date={this.date}
-        prop:user={this.user}
-        prop:posts={this.posts}
-    ></app-child-component>
-</template>
+```typescript
+import { Component } from '@munster-dev/core';
 
-<script>
-    export default class ParentComponent {
-        constructor() {
-            this.date = new Date().getTime();
-            this.user = { ... };
-            this.posts = [ ... ];
-        }
+@Component('app-parent')
+export class Parent {
+    date = new Date();
+    user = { ... };
+    posts = [ ... ];
+
+    render() {
+        return <app-child
+            prop:date={this.date}
+            prop:user={this.user}
+            prop:posts={this.posts}
+        ></app-child>
     }
-</script>
+}
 ```
 
-#### Child component
-```javascript
-<template>
-    ...
-</template>
+## Get props
 
-<script>
-    export default class ChildComponent {
-        $connected() {
-            console.log(this.$props);
-        }
+To get the props, we need to inject the `PropsService` provided by the core package to our child component.
+
+Ex.
+
+```typescript
+import { Component, PropsService, OnInitImpl } from '@munster-dev/core';
+
+@Component('app-child')
+export class Child implements OnInitImpl {
+    constructor(private propsService: PropsService) {}
+
+    onInit() {
+        const props = this.propsService.get();
+        const date = this.propsService.get('date');
+        console.log(props, date);
     }
-</script>
+
+    render() {
+        return <h1>Child component</h1>
+    }
+}
 ```
 
-## Pass props from logic
+The `get` method of PropsService will return a value of a property if we pass the property name and it will return the whole props object if no property name is passed to the method.
 
-This feature allows us to pass props from parent component to child.
-This is very helpful when building MunsterJS components intended to be compatible with other javascript frameworks.
+## On props change event
 
-Here's an example on how to pass props from logic:
+We can also subscribe to a props change event using the `PropsService`.
+This event will trigger once there are changes in the props on the parent component side.
 
-#### Parent component
+Ex.
 
-```javascript
-<template>
-    <div>
-        <button on:click={this.setProps}>Set Props Button</button>
-        <app-child-component view:ref={this.childComponent}></app-child-component>
-    </div>
-</template>
-<script>
-    export default class ParentComponent {
-        childComponent = null;  // reference to child component
-        setProps() {
-            this.childComponent.$setProps({
-                date: new Date()
-            });
-        }
+```typescript
+import { Component, PropsService, OnInitImpl } from '@munster-dev/core';
+
+@Component('app-child')
+export class Child implements OnInitImpl {
+
+    constructor(private propsService: PropsService) {}
+
+    onInit() {
+        this.propsService.onPropsChange.subscribe(this.onPropsChange);
     }
-</script>
+
+    @Bind()
+    private onPropsChange(props) {
+        console.log(props);
+    }
+
+    render() {
+        return <h1>Child component</h1>
+    }
+}
 ```
 
-#### Child component
+## Unsubscribe to event
 
-```javascript
-<template>
-    ...
-</template>
-<script>
-    export default class ChildComponent {
-        $onPropsChange(oldProps) {
-            console.log(this.$props);
-        }
+It is always a good practice to unsubscribe all of your subscriptions when component is destroyed.
+
+Ex.
+
+```typescript
+import { Component, PropsService, Subscription, OnInitImpl, OnDestroyImpl } from '@munster-dev/core';
+
+@Component('app-child')
+export class Child implements OnInitImpl, OnDestroyImpl {
+
+    subscriptions: SubscriptionInterface[] = [];
+
+    constructor(private propsService: PropsService) {}
+
+    onInit() {
+        // push the subscription in to subscriptions array when component is initialized
+        this.subscriptions.push(
+            this.propsService.onPropsChange.subscribe(this.onPropsChange)
+        );
     }
-</script>
+
+    onDestroy() {
+        // unsubscribe all subscriptions when component is destroyed
+        this.subscriptions.forEach(item => item.unsubscribe());
+    }
+
+    @Bind()
+    private onPropsChange(props) {
+        console.log(props);
+    }
+
+    render() {
+        return <h1>Child component</h1>
+    }
+}
 ```
-
-## Hook
-
-After this plugin is registered, the plugin will add an `$onPropsChange(oldProp)` hook to the component which will trigger once a `props` is changed.

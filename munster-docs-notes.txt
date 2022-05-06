@@ -33,6 +33,9 @@
 		- export directives
 		- export pipes
 	- event handling
+		- what is MunsterJS event handling
+		- Method parameters
+		- Event variables
 	- Data binding
 		- what is MunsterJS data binding
 		- attribute binding

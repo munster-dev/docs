@@ -5,7 +5,7 @@ sidebar_label: Event handling
 slug: /event-handling
 ---
 
-Event handling lets the component to respond to user action on the UI like button clicks, text inputs, drag elements and other actions.
+Event handling is a directive lets the component to respond to user action on the UI like button clicks, text inputs, drag elements and other actions.
 It uses a directive with namespace of `on` to bind the component methods to an element as an event listener.
 
 ## Syntax

@@ -32,14 +32,15 @@
 		- export services
 		- export directives
 		- export pipes
-	- Change detection
-		- What is change detection
-		- Manually trigger change detection
+	- event handling
 	- Data binding
 		- what is MunsterJS data binding
 		- attribute binding
 		- text binding
 		- model binding
+	- Change detection
+		- What is change detection
+		- Manually trigger change detection
 	- Props
 		- what is MunsterJS props
 		- syntax

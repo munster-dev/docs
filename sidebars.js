@@ -7,8 +7,8 @@ module.exports = {
     'Main Concept': [
       'component.md',
       'module.md',
-      'data-binding.md',
       'change-detection.md',
+      'data-binding.md',
       'directives.md',
       'custom-directive.md'
     ],

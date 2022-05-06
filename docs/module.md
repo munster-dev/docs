@@ -103,9 +103,123 @@ export class ParentModule extends BaseModule { }
 ```
 
 ## Register services
+
+Services can be registered to a module so that all components and other classes registered to the module can use the services.
+A service can be registered to any number of modules unlike components which can be registered only in one module.
+
+Ex.
+
+```typescript
+import { Module, BaseModule } from '@munster-dev/module';
+import { GreetingService } from './greeting.service';
+
+@Module({
+    services: [GreetingService]
+})
+export class AppModule extends BaseModule { }
+```
+
 ## Export services
+
+A service can also be exported from the module.
+
+Ex.
+
+```typescript
+import { Module, BaseModule } from '@munster-dev/module';
+import { GreetingService } from './greeting.service';
+
+@Module({
+    exports: {
+        services: [GreetingService]
+    }
+})
+export class AppModule extends BaseModule { }
+```
+
 ## Register directives
+
+Directives can be registered to a module so that all components registered to the module can use the directives.
+A directive can be registered to any number of modules unlike components which can be registered only in one module.
+
+Ex.
+
+```typescript
+import { Module, BaseModule } from '@munster-dev/module';
+import { HighlightDirective } from './highlight.directive';
+
+@Module({
+    directives: [HighlightDirective]
+})
+export class AppModule extends BaseModule { }
+```
+
 ## Export directives
+
+A directive can also be exported from the module.
+
+Ex.
+
+```typescript
+import { Module, BaseModule } from '@munster-dev/module';
+import { HighlightDirective } from './highlight.directive';
+
+@Module({
+    exports: {
+        directives: [HighlightDirective]
+    }
+})
+export class AppModule extends BaseModule { }
+```
+
 ## Register pipes
+
+Pipes can be registered to a module so that all components registered to the module can use the pipes.
+A pipe can be registered to any number of modules unlike components which can be registered only in one module.
+
+Ex.
+
+```typescript
+import { Module, BaseModule } from '@munster-dev/module';
+import { UppercasePipe } from './uppercase.pipe';
+
+@Module({
+    pipes: [UppercasePipe]
+})
+export class AppModule extends BaseModule { }
+```
+
 ## Export pipes
+
+A pipe can also be exported from the module.
+
+Ex.
+
+```typescript
+import { Module, BaseModule } from '@munster-dev/module';
+import { UppercasePipe } from './uppercase.pipe';
+
+@Module({
+    exports: {
+        pipes: [UppercasePipe]
+    }
+})
+export class AppModule extends BaseModule { }
+```
+
 ## Import modules
+
+A module can be imported to another module.
+The purpose of this is to make the parent module to be able to use the components, services, pipes and directives that are exported from the child module.
+
+Ex.
+
+```typescript
+import { Module, BaseModule } from '@munster-dev/module';
+import { ChildModule } from './child.module';
+
+@Module({
+    modules: [ChildModule]
+})
+export class AppModule extends BaseModule { }
+```

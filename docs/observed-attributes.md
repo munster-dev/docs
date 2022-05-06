@@ -99,7 +99,7 @@ export class Child {
 }
 ```
 
-## attributeChangedCallback
+## The attributeChangedCallback hook
 
 This is a hook that runs each time one of the observed attributes is added, removed, or updated.
 It has four arguments, first is the attribute name, second is the old value, third is the new value, and last is the camel cased attribute name.

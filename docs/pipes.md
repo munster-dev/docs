@@ -10,6 +10,37 @@ They are very useful because then an be used directly in the template or in logi
 
 ## Register pipe
 
+Unlike directives, pipes provided by the core package are not automatically available in all components by default.
+We need to register them to component or module before we can use it.
+
+Here are the examples on how to register a pipe in component and in module.
+
+#### In component
+
+```typescript
+import { Pipes, DatePipe } from '@munster-dev/core';
+
+@Pipes(DatePipe)
+@Component('app-greeting')
+export class Greeting {
+    render() {
+        return <h1>{ new Date() | date('YYYY-MM-DD') }</h1>
+    }
+}
+```
+
+#### In Module
+
+```typescript
+import { DatePipe } from '@munster-dev/core';
+import { Module, BaseModule } from '@munster-dev/module';
+
+@Module({
+    pipes: [DatePipe]
+})
+export class GreetingModule extends BaseModule { }
+```
+
 ## Template pipes
 
 In the view, we can use the pipes inside jsx expression container `{}`.

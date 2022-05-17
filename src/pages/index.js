@@ -56,12 +56,19 @@ function Feature({imageUrl, title, description}) {
 
 function Sponsors() {
   return (
-    <section className={styles.features} style={{borderTop: 'solid 1px #eceeef'}}>
+    <section id="support-us-section" className={styles.features} style={{borderTop: 'solid 1px #eceeef'}}>
       <div className="container">
         <h3 style={{textAlign: 'center', color: '#1c1e21cc'}}>Patreon Sponsors</h3>
-        <h3 style={{textAlign: 'center', color: '#ccc'}}>. . .</h3>
         <div style={{textAlign: 'center'}}>
-          <button className="button button--outline button--secondary sponsor-link-btn">Become a sponsor</button>
+          <a target="_blank" href="https://www.patreon.com/monsterjs" className="button button--outline button--secondary sponsor-link-btn">Become a sponsor</a>
+        </div>
+        <br />
+        <br />
+        <h3 style={{textAlign: 'center', color: '#1c1e21cc'}}>One-time donation</h3>
+        <div style={{textAlign: 'center', marginBottom: '-30px'}}>
+          <a target="_blank" href="https://www.paypal.com/paypalme/dariusbualan">
+            <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_74x46.jpg" />
+          </a>
         </div>
       </div>
     </section>

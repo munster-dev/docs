@@ -5,120 +5,209 @@ sidebar_label: Custom directive
 slug: /custom-directive
 ---
 
-Custom directives are classes that manipulates an element and our MunsterJS application.
-Directive is sometimes called as namespace in this framework since the syntax to write directives in view is `<namespace>:<name>={<value>}`.
-The value is not required.
+Custom directives are classes that manipulates an element in our MunsterJS application.
 
 ## Creating a custom directive
 
-Here is an example on how to create a custom directive.
+To create a custom directive, we can use the [cli](/cli) to automatically generate a directive file with boilerplate codes or we can manually create a file and write the code from scratch.
 
-```javascript
-import { Directive, BaseDirective } from 'munster';
+The following codes is an example of working directive codes but without functions yet.
 
-@Directive({
-    namespace: 'highlight'
-})
-export class HighlightDirective extends BaseDirective {
+```typescript
+import { Directive } from '@munster-dev/core';
+
+@Directive('highlight')
+export class HighlightDirective {
 }
 ```
 
 The next step is to handle the directive by creating a method `$<directive name>`.
 
-Here is an example on how to handle the directive `hightlight:color="red"`.
+Here is an example on how to handle the directive `highlight:color="red"`.
 
 ```typescript
-<div>
-    <p hightlight:color="red">I have a red background</p>
-</div>
-```
-```typescript
-import { Directive, BaseDirective } from '@munster-dev/core';
+import { Directive, DirectiveArgInterface } from '@munster-dev/core';
 
-@Directive({
-    namespace: 'highlight'
-})
-export class HighlightDirective extends BaseDirective {
-
-    $color(valueCaller: () => any) {
-        const value = valueCaller();
+@Directive('highlight')
+export class HighlightDirective {
+    $color(arg: DirectiveArgInterface) {
+        const value = arg.directive.get();
         this.element.style.backgroundColor = value;
     }
-
 }
 ```
 
-The namespaces will call its respective class methods once used in a template.
-
-For the example above, the directive `highlight:color="red"` will call the method `$color` with a parameter(valueCaller) to call the value(red) of the directive.
-
-## Use the custom directive
-
-To use the custom directive, we need to register the directive in the module first.
-
-Here is an example on how to register the directive to a module.
+Please note that the class method to handle a directive must start with `$`.
+For the example above, the directive `highlight:color="red"` will call the method `$color`.
+The method has one argument that has a type of `DirectiveArgInterface` provided by the core package.
 
 ```typescript
-import { Module } from '@munster-dev/core';
-import { HighlightDirective } from './hightlight.directive';
-
-@Module({
-    directives: [HighlightDirective]
-})
-export class RootModule {}
+interface DirectiveArgInterface {
+    directive: {
+        get: () => any,
+        set?: (val?: any) => void;
+    };
+    element: HTMLElement;
+    component: ComponentInstanceInterface;
+    componentWrapper: ComponentWrapperInstanceInterface;
+}
 ```
 
-After we register the directive we can use the syntax `<namespace>:<name>="<value>"` to apply the directive to an element.
+## Register a directive
+
+Before we can use a custom directive we need to register it to a module or component.
+
+The following are examples on how to register a directive.
+
+#### In component
+
+```typescript
+import { Component } from '@munster-dev/core';
+import { CustomDirective1 } from './custom-directive1.directive';
+import { CustomDirective2 } from './custom-directive2.directive';
+
+@Directives(CustomDirective1, CustomDirective2)
+@Component('app-greeting')
+export class Greeting {
+    render() {
+        return <h1>Hello World!</h1>
+    }
+}
+```
+
+#### In module
+
+```typescript
+import { Module, BaseModule } from '@munster-dev/module';
+import { CustomDirective1 } from './custom-directive1.directive';
+import { CustomDirective2 } from './custom-directive2.directive';
+
+@Module({
+    directives: [CustomDirective1, CustomDirective2]
+})
+export class AppModule extends BaseModule { }
+```
+
+## Using a directive
+
+After the custom directive is registered, we can now use it like the built-in directives using the following syntax: `<namespace>:<name>="<value>"`.
+
+```typescript
+import { Component } from '@munster-dev/core';
+import { HighlightDirective } from './highlight.directive';
+
+@Directives(HighlightDirective)
+@Component('app-greeting')
+export class Greeting {
+    render() {
+        return <h1 highlight:color="red">Hello World!</h1>
+    }
+}
+```
 
 ## Value change watcher
 
-To let our directive react when it's a value is changed we can use the `createWatcher` method from BaseDirective.
-The watch method has a parameters of initial value, value caller, and an update callback which runs every time the value changes.
+To let our directive react when it's value is changed we can use the `createWatcher(valueCaller, element, component, updateCallback)` function from the core package.
+
+| Params | Description |
+| --- | --- |
+| valueCaller       | A function that calls the value of the directive. |
+| element           | The element where the directive is attached. |
+| component         | The component where the directive is being used. |
+| updateCallback    | A function that runs when the value of the directive is changed. |
 
 Here's an example on how to change the background color of an element based on the value passed to its directive.
 
 #### The directive
 ```javascript
-import { Directive, BaseDirective } from '@munster-dev/core';
+import { Directive, createWatcher } from '@munster-dev/core';
 
-@Directive({
-    namespace: 'highlight'
-})
-export class HighlightDirective extends BaseDirective {
+@Directive('highlight')
+export class HighlightDirective {
+    $color(arg: DirectiveArgInterface) {
+        const initialValue = arg.directive.get();
+        this.element.style.backgroundColor = initialValue;
 
-    $color(valueCaller: () => any) {
-        const initialValue = valueCaller();
-        this.createWatcher(initialValue, valueCaller, (newValue) => {
+        createWatcher(() => arg.directive.get(), arg.element, arg.component, newValue => {
             this.element.style.backgroundColor = newValue;
         });
     }
-
 }
 ```
 #### The component
+
 ```typescript
-<div>
-    <p highlight:color={this.color}>Hello World!</p>
-</div>
+import { Component, Directives } from '@munster-dev/core';
+import { HighlightDirective } from './highlight.directive';
+
+@Directives(HighlightDirective)
+@Component('app-greeting')
+export class Greeting {
+
+    highlightColor = 'red';
+
+    render() {
+        return <h1 highlight:color={this.highlightColor}></h1>
+    }
+}
 ```
 
-## Accessing component from directive
+## Handling all directive names
 
-Directives also has access to the component from its constructor.
+In some cases we need to handle any names passed on our directive.
 
-Here's an example on how to access the component from a directive:
+A good example for this is the props directive that accepts all directive names.
+Ex. `prop:user={this.user}` or `prop:post={this.post}` where `user` and `post` are the directive names.
 
-```javascript
-import { Directive, BaseDirective } from '@munster-dev/core';
+To catch all the directive names we can use `allDirectives(arg: AllDirectivesArgInterface)` hook.
+This hook has one argument that has a type of AllDirectivesArgInterface provided by the core package.
 
-@Directive({
-    namespace: 'hightlight'
-})
-export class HighlightDirective extends BaseDirective {
-
-    onInit() {
-        console.log(this.component);
+```typescript
+interface AllDirectivesArgInterface {
+    directives: {
+        [key: string]: {
+            get: () => any,
+            set?: (val?: any) => void; }>
+        }
     }
-
+    element: HTMLElement;
+    component: ComponentInstanceInterface;
+    componentWrapper: ComponentWrapperInstanceInterface;
 }
+```
+
+Ex.
+
+#### The component
+
+```typescript
+import { Component, Directives } from '@munster-dev/core';
+import { AnimalDirective } from './animal.directive';
+
+@Directives(AnimalDirective)
+@Component('app-animals')
+export class Animals {
+    return <h1 animal:cat="meow meow meow" animal:chicken="cluck cluck cluck">Animal sounds</h1>
+}
+```
+
+#### The directive
+
+```typescript
+import { Directive } from '@munster-dev/core';
+
+@Directive('animal')
+export class AnimalDirective {
+    allDirectives(arg: AllDirectivesArgInterface) {
+        console.log(arg.directives.cat.get());
+        console.log(arg.directives.chicken.get());
+    }
+}
+```
+
+In the example above, the `allDirectives` method will log the following:
+
+```typescript
+'meow meow meow'
+'cluck cluck cluck'
 ```

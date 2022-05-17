@@ -25,6 +25,7 @@ Lifecycle hooks are functions that lets you run a block of codes when your compo
 | attributeChangedCallback(name: string, oldValue: any, newValue: any, camelCaseName: string) `com` `dir` | A native web component hook. Called when an observed attribute has been added, removed or changed. |
 | connectedCallback() `com` `dir`                                   | A native web component hook. Called when the component is connected to the dom tree |
 | disconnectedCallback() `com` `dir`                                | A native web component hook. Called when the component is disconnected to the dom tree. |
+| allDirectives(param: AllDirectivesArgInterface) `dir`             | Called after directive is initialized. This hook is used to handle all directive names. |
 
 ## Hooks usage
 
@@ -77,6 +78,10 @@ import { Directive } from '@munster-dev/core';
 export class HighlightDirective {
     connectedCallback() {
         console.log('Hi!, I am in connectedCallback hook');
+    }
+
+    allDirectives(param: AllDirectivesArgInterface) {
+        console.log('Hi!, I am in allDirectives hook');
     }
 
     disconnectedCallback() {

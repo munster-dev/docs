@@ -9,7 +9,7 @@ Lifecycle hooks are functions that lets you run a block of codes when your compo
 
 ## Available hooks
 
-`com` components, `dir` directives, `ser` services
+`com` components, `dir` directives, `ser` services, `pip` pipe
 
 | Hooks                                                                         | Description |
 | ---                                                                           | --- |
@@ -19,7 +19,7 @@ Lifecycle hooks are functions that lets you run a block of codes when your compo
 | onChangeDetection() `com` `dir`                                   | This is called every time the component's change detection runs. |
 | onViewChange() `com` `dir`                                        | This will be called every time there are changes in view caused by change detection. |
 | onDestroy() `com` `dir`                                           | This will be called when a component is destroyed. This is used for cleanup like unsubscribing all subscriptions. |
-| onReceiveParent(parent: any) `ser`                                        | This is called after a service is initialized. This is used when a service needs to access the parent instance where the service is injected. |
+| onReceiveParent(parent: any) `ser` `pip`                           | This is called after a service or pipe is initialized. This is used when a service or pipe needs to access the parent instance where it is injected. |
 | onReceiveConfig(config: any, container: Container) `ser`                  | This is called after a service is initialized. This is used when a service is designed to depend on a configuration after initialization. |
 | adoptedCallback() `comp` `dir`                                     | A native web component hook. Called when a component is moved from one HTML document to another using the adoptNode(). This happens when we have `<iframe>` elements in a page. |
 | attributeChangedCallback(name: string, oldValue: any, newValue: any, camelCaseName: string) `com` `dir` | A native web component hook. Called when an observed attribute has been added, removed or changed. |

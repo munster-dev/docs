@@ -1,8 +1,4 @@
 - Main concept
-	- Custom directives
-		- create directive
-		- allDirectives(arg: AllDirectivesArgInterface)
-		- create directive using cli
 	- Pipes
 		- what is MunsterJS pipes
 		- template pipes

@@ -14,7 +14,8 @@ module.exports = {
       'observed-attributes.md',
       'lifecycle-hooks.md',
       'directives.md',
-      'custom-directive.md'
+      'custom-directive.md',
+      'pipes.md'
     ],
     'Available Packages': [
       'router.md',

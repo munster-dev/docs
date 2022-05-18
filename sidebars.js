@@ -21,9 +21,10 @@ module.exports = {
       'list-rendering.md',
       'conditional-rendering.md'
     ],
-    'Available Packages': [
+    'Other Available Packages': [
       'router.md',
       'store.md',
+      'http.md'
     ],
     CLI: [
       'cli-installation.md',

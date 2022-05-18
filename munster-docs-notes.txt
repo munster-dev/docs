@@ -1,9 +1,4 @@
 - Available packages
-	- Store
-		- get state
-		- set state
-		- subscribe to a state
-		- actions
 	- Http
 		- what is MunsterJS http
 		- installation

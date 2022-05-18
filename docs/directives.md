@@ -275,7 +275,7 @@ The example code above will generate list of element that looks like the followi
 
 `view:if`
 
-Conditional rendering is used to conditionally render an element in the dom.
+Conditional rendering is used to conditionally render an element to the dom.
 It uses the `view:if` directive which removes an element from the dom if the value is a falsy and append the element if otherwise.
 
 Here's an example on how to use conditional rendering:

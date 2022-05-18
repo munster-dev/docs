@@ -97,6 +97,10 @@ export class Greeting {
 
 Here are some usable pipes included in the core package.
 
+<!-- 
+Date pipe resources
+https://github.com/angular/angular/blob/main/packages/common/src/pipes/date_pipe.ts
+-->
 | Pipe | Description |
 | --- | --- |
 | [DatePipe](/pipes/date)           | Formats the date depending on the pipe parameters. |

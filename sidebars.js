@@ -17,7 +17,8 @@ module.exports = {
       'custom-directive.md',
       'pipes.md',
       'custom-pipes.md',
-      'services.md'
+      'services.md',
+      'list-rendering.md'
     ],
     'Available Packages': [
       'router.md',

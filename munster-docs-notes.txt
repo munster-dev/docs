@@ -1,9 +1,4 @@
 - Main concept
-	- Services
-		- what is MunsterJS service
-		- component services
-		- module services
-		- global services
 	- List rendering
 		- what is MunsterJS list rendering
 		- directive syntax

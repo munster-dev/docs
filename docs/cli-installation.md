@@ -13,6 +13,10 @@ To install the cli we just need to run the following command:
 ```bash
 npm install -g @munster-dev/cli
 ```
+or
+```bash
+yarn global add @munster-dev/cli
+```
 
 After installing the cli, we can verify if the installation is successful by running the following command:
 

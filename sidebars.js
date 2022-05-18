@@ -27,6 +27,7 @@ module.exports = {
       'http.md'
     ],
     CLI: [
+      'cli-what-is-cli.md',
       'cli-installation.md',
       'cli-create-application.md',
       'cli-generate-commands.md',

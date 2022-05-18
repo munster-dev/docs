@@ -20,8 +20,7 @@ The command above will generate the files like the following.
 
 ```
 hello-world
-    ├── hello-world.logic.ts
-    ├── hello-world.view.tsx
+    ├── hello-world.component.tsx
     └── hello-world.styles.scss
 ```
 
@@ -41,7 +40,7 @@ Here's a list of available types for generate command:
 For more information about each command, we can check the help feature of the cli.
 The syntax for this is `mn generate <command type> --help`.
 
-Example:
+Ex.
 
 ```bash
 mn generate component --help

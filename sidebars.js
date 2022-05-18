@@ -15,7 +15,8 @@ module.exports = {
       'lifecycle-hooks.md',
       'directives.md',
       'custom-directive.md',
-      'pipes.md'
+      'pipes.md',
+      'custom-pipes.md'
     ],
     'Available Packages': [
       'router.md',

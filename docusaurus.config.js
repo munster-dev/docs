@@ -45,7 +45,7 @@ module.exports = {
           items: [
             {
               label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/munster',
+              href: 'https://stackoverflow.com/questions/tagged/monsterjs',
             },
             {
               label: 'Discord',

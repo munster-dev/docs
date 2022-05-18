@@ -5,14 +5,14 @@ sidebar_label: Store
 slug: /store
 ---
 
-Store is a service and a state management built for munster framework.
-Using this store will help developers to centralize and maintain the codes very easily.
+Store is a state management built for MunsterJS framework.
+Using this store will help developers to centralize and maintain the codes easily.
 
 ## Installation
 
 We can install the store to our project using npm or yarn.
 
-Here are the examples on how we can install the package to our project.
+Ex.
 
 ```bash
 npm install @munster-dev/store
@@ -25,29 +25,25 @@ yarn add @munster-dev/store
 ## Register the store
 
 Store needs to be registered as a service before we can use it.
-We can register a service inside `src/index.ts` file.
+Please check the [services](/services) for information on how to register a service.
 
-Here's the example on how to register the store:
+It is recommended that we register the store in the global container.
 
-```javascript
-// src/index.ts
-import 'reflect-metadata';
-import './styles.scss';
-import { Program } from '@munster-dev/core';
-import { AppModule } form './app.module';
-import { Store, StoreInterface } from '@munster-dev/store';
+Ex.
 
-const program = new Program();
+```typescript
+import { Container, GlobalDataSource, registerService } from '@munster-dev/core';
+import { Store } from '@munster-dev/store';
 
-program.bootstrapModule(AppModule);
+const storeConfig = {
+    state: {}
+};
 
-program.Service.addSingleton(Store);
-
-program.run();
+const container = new Container(new GlobalDataSource());
+registerService(Store, container, storeConfig);
 ```
 
-An initial state of the store is required when registering the store.
-More information for the store initial state can be found directly below this section.
+In the example above, the `storeConfig` is the initial state of the store.
 
 ## Initial state
 
@@ -65,7 +61,7 @@ export interface InitialStateInterface {
 }
 
 export const initialState: StoreInterface<InitialStateInterface> = {
-    initialState: {
+    state: {
         count: 0
     }
 }
@@ -74,116 +70,98 @@ export const initialState: StoreInterface<InitialStateInterface> = {
 After creating an initial state, we need to pass it as a service config for the store.
 
 ```typescript
-// src/index.ts
-import 'reflect-metadata';
-import './styles.scss';
-import { Program } from '@munster-dev/core';
-import { AppModule } form './app.module';
-import { Store, StoreInterface } from '@munster-dev/store';
-import { initialState, InitialStateInterface } from './initial-state';
+import { Container, GlobalDataSource, registerService } from '@munster-dev/core';
+import { Store } from '@munster-dev/store';
+import { initialState } from './initial-state';
 
-const program = new Program();
-
-program.bootstrapModule(AppModule);
-
-program.Service.addSingleton(Store)
-    .setConfig<StoreInterface<InitialStateInterface>>(initialState);
-
-program.run();
+const container = new Container(new GlobalDataSource());
+registerService(Store, container, initialState);
 ```
 
 ## Setter
 
-Setting a state of the store is very easy.
+When we set a new value to state of store.
+The change will be reflected to the components that has a subscription to this state.
 
-Here's an example on how to set a state inside a component:
+Ex.
 
 ```javascript
 import { Component } from '@munster-dev/core';
 import { Store } from '@munster-dev/store';
 import { InitialStateInterface } from './initial-state';
 
-@Component({
-    selector: 'app-root'
-})
-export class RootComponent {
-
+@Component('app-greeting')
+export class Greeting {
     constructor(private store: Store<InitialStateInterface>) {}
 
     btnClick() {
         this.store.set('count', 100);
     }
+    ...
 }
 ```
 
 ## Getter
 
-To get a value of a store, the developer can call the `get` method.
+To get a value from store, the we can call the store `get` method.
 
-Here's an example on how to get a value from the store:
+Ex.
 
 ```javascript
 import { Component } from '@munster-dev/core';
 import { Store } from '@munster-dev/store';
 import { InitialStateInterface } from './initial-state';
 
-@Component({
-    selector: 'app-root'
-})
-export class RootComponent {
-
+@Component('app-greeting')
+export class Greeting {
     constructor(private store: Store<InitialStateInterface>) {}
 
-    btnClick() {
+    onInit() {
         console.log(this.store.get('count'));
     }
+    ...
 }
 ```
 
-## Observables
+## Subscribe to changes
 
-Store also offers a way to watch for the changes of each item of the state.
+Store also offers a way to subscribe for changes of each item of the state.
 
-Here's how to watch the data changes for each item in the state:
+Ex.
 
 ```javascript
 import { Component } from '@munster-dev/core';
 import { Store } from '@munster-dev/store';
 import { InitialStateInterface } from './initial-state';
 
-@Component({
-    selector: 'app-root'
-})
-export class RootComponent {
+@Component('app-greeting')
+export class Greeting {
 
     constructor(private store: Store<InitialStateInterface>) {}
 
-    connectedCallback() {
+    onInit() {
         this.store.select('count').subscribe(state => {
             console.log(state);
         });
     }
+    ...
 }
 ```
 
-#### Unsubscribe to observable
+#### Unsubscribe to store
 
 All subscriptions must be unsubscribe when the component is destroyed or else it will cause a memory issue.
 
-Here is an example on how to unsubscribe a subscription when a component is destroyed.
+Ex.
 
 ```javascript
-import { Component } from '@munster-dev/core';
+import { Component, Subscription } from '@munster-dev/core';
 import { Store } from '@munster-dev/store';
 import { InitialStateInterface } from './initial-state';
 
-@Component({
-    selector: 'app-root'
-})
-export class RootComponent {
-
-    private subscription: Subscription;
-
+@Component('app-greeting')
+export class Greeting {
+    subscription: Subscription;
     constructor(private store: Store<InitialStateInterface>) {}
 
     connectedCallback() {
@@ -195,6 +173,7 @@ export class RootComponent {
     disconnectedCallback() {
         this.subscription.unsubscribe();
     }
+    ...
 }
 ```
 
@@ -227,7 +206,7 @@ export const setPostLikesCount = createAction<number, PostInterface>((state: Pos
 });
 
 export const initialState: StoreInterface<InitialStateInterface> = {
-    initialState: {
+    state: {
         post: {
             likesCount: 0,
             commentsCount: 0
@@ -235,7 +214,7 @@ export const initialState: StoreInterface<InitialStateInterface> = {
     },
     actions: {
         post: [
-            setPostLikesCount // <--- action needs to be registed here
+            setPostLikesCount // <--- action needs to be registered here
         ]
     }
 }
@@ -258,10 +237,8 @@ import { Component } from '@munster-dev/core';
 import { Store } from '@munster-dev/store';
 import { InitialStateInterface, setPostLikesCount } from './initial-state';
 
-@Component({
-    selector: 'app-root'
-})
-export class RootComponent {
+@Component('app-greeting')
+export class Greeting {
 
     constructor(private store: Store<InitialStateInterface>) {}
 

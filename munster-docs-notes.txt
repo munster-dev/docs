@@ -1,9 +1,5 @@
 - Available packages
 	- Store
-		- what is MunsterJs store
-		- installation
-		- initial state
-		- register the store
 		- get state
 		- set state
 		- subscribe to a state
@@ -15,6 +11,8 @@
 		- http config module
 		- http verbs
 		- convert response
+- Style guide
+	- unsubscribing
 - CLI
 	- what is MunsterJS cli
 	- installation

@@ -5,15 +5,15 @@ sidebar_label: Router
 slug: /router
 ---
 
-Router is a plugin that enables developers to build a single page application with multiple components that acts as different views of the app.
-View changes depending on the activated route. Activated routes depends on the url of the browser and the path registered in the route component.
-
+Router is a plugin that enables developers to build a single page application with multiple components that acts as different pages of the app.
+View changes depending on the activated route.
+Activated routes depends on the url of the browser and the path registered in the route component.
 
 ## Installation
 
-We can install the router to our project using npm or yarn.
+We can install the router using npm or yarn.
 
-Here are the examples on how we can install the package to our project.
+Ex.
 
 ```bash
 npm install @munster-dev/router
@@ -31,217 +31,371 @@ We can register the individual apis or register the whole router module to the m
 Here's an example on how to register the router module:
 
 ```typescript
-import { Module } from '@munster-dev/core';
+import { Module, BaseModule } from '@munster-dev/module';
 import { RouterModule } from '@munster-dev/router';
 
 @Module({
     modules: [RouterModule]
 })
-export class RootModule { }
+export class AppModule extends BaseModule { }
 ```
 
-## Navigate
+## Creating a route
 
-Router contains a `navigate(url, state, title, replaceState)` that allows us to navigate to different routes.
+`import { Route } from '@munster-dev/router'`
 
-#### Parameters
+Route is just a component provided by the router package.
+Once route component is already defined or the router module is imported to the module we can now start using the `app-route` component inside our components.
 
-`url` - is the url that we want to navigate to. This parameter is required.
-
-`state` - object, used as the state in history.pushState api. This parameter is not required.
-
-`title` - string, used as the title in history.pushState api. This parameter is not required.
-
-`replaceState` - boolean, indicates if the navigate will use history.pushState or history.replaceState
-
-
-## Events
-
-Router gives us an ability to watch router events.
-
-Here are the list of available events:
-
-| Events            |  |
-| ---               | --- |
-| onRouteChange     | An observable event that triggers when the component path route is changed. |
-| onAllRouteChange  | An observable event that triggers when route is changed. |
-
-We can access router events using the components props.
-
-Here's an example on how to watch for an event:
+Ex.
 
 ```typescript
 import { Component } from '@munster-dev/core';
-import { RouterPropsInterface } from '@munster-dev/router';
+import { Greeting } from './greeting.component';
 
-@Component({
-    selector: 'app-sample',
-    view: './sample.view'
-})
-export class SampleComponent {
-
-    props: RouterPropsInterface;
-
-    connectedCallback() {
-        this.props.events.onRouteChange.subscribe(() => {
-            // some codes ...
-        });
+@Component('app-root')
+export class Root {
+    render() {
+        return <div>
+            <app-route
+                prop:path="/greeting"
+                prop:component={Greeting}
+            />
+        </div>
     }
 }
 ```
 
-:::note
-Router events is only available to components directly registered to the <app-route /\> component.
-:::
+In the example above, if the user will navigate to '/greeting' route the `Greeting` component will be displayed in the view.
 
-## Router params
+## Route props
 
-We can also get the router parameters using `this.props.params()`.
+Route props are properties of the route that controls the behavior of the route.
 
-Here is an example on how to get the router params.
+Here are the available props that can be used in a route.
 
-```typescript
-import { Component } from '@munster-dev/core';
-import { RouterPropsInterface } from '@munster-dev/router';
+| Props | Description |
+| --- | --- |
+| path | The path that should match in the browser url pathname before the route is activated. |
+| component | The component that will be rendered inside the `<app-route />` when route path matches the browser url pathname. |
+| exact | If the value is true, then the Component will only activate if route path is an exact match with the browser url pathname but still respect the dynamic route matching. |
+| guards | It is another layer of checking if the component can activate or deactivate. |
+| module | Loads a module on demand and display it's root component to the view if route path matches the browser url pathname. |
+| redirect-to | A string url to redirect to if route path matches the browser url pathname. |
 
-@Component({
-    selector: 'app-sample',
-    view: './sample.view'
-})
-export class SampleComponent {
+## Router directive
 
-    props: RouterPropsInterface;
+`import { RouterDirective } from '@munster-dev/router'`
 
-    connectedCallback() {
-        console.log(this.props.params());
-    }
-}
-```
+Router also has a directive that is very helpful when using a router.
 
-:::note
-Router params is only available to components directly registered to the <app-route /\> component.
-:::
+### Router link
 
-## Creating routes
+`router:link="<link>"`
 
-A route in MunsterJS is just a component that uses the `app-route` selector and has a required property `path`.
+Attach to an element to navigate to the link when the element is clicked.
+If used in an `<a>` tag, it will automatically add the link as an `href` attribute.
 
-Here is an example on how to make a route.
+Ex.
 
 ```typescript
-<div>
-    <app-route prop:path="/some/path" prop:component="app-sample" />
-</div>
+<a router:link="/some/url">I am a link</a>
+<button router:link="/some/url/123">I am a button</button>
 ```
 
-In the example above. The `app-sample` component will be displayed on the UI if the browser url matches with the path property of the app-route.
+### Router link active
 
-#### Route properties
+`router:link-active="<class name>"`
 
-Here are the available route properties.
+This directive will add the `<class name>` to the class list of the element if it's `router:link` directive link matches the browser url pathname using dynamic matching.
 
-| Properties    | type              | Description |
-| ---           | ---               | --- |
-| path          | string            | The path that should match in the browser url pathname before the route is activated. |
-| component     | class \| string   | The component that will be rendered in the `<app-router-outlet />` when route path matches the browser url pathname. |
-| exact         | boolean           | If the values is true, then the Component will only activate if route path is an exact match with the browser url pathname but still respect the dynamic route matching. |
-| middleware    | array             | It is another layer of checking if the component can activate or not. |
-| module        | function          | Loads a module on demand. |
+Ex.
 
-## Dynamic route matching
-
-Dynamic route matching is a way to match a route path segment into its matching browser url pathname segment.
-A dynamic segment is denoted by a colon `:` followed by the segment name. ex. `/:userId`.
-The value of the dynamic segments is accessible in it's component only using `this.props.params()`.
-
-Here's a table of dynamic routes and its corresponding values in `this.props.params()`:
-
-| component path        | browser url pathname  | this.$router.params()         |
-| ---                   | ---                   | ---                           |
-| /:path                | /100                  | { path: 100 }                 |
-| /user/:userId         | /user/123             | { userId: 123 }               |
-| /post/:postId/:userId | /post/1/123           | { postId: 1, userId: 123 }    |
-
-## Router link directive
-
-Router link directive is an additional feature of the router.
-It allows the developer to add a way to navigate the user to different routes by clicking the element that contains this directive.
-
-Here's an example on how to add a router link:
-
-```jsx
-<div>
-    <a router:link="/route-path">Click Me</a>
-    <button router:link="/route-path">Click Me</button>
-</div>
+```typescript
+<button
+    router:link="/some/url/123"
+    router:link-active="i-am-active"
+>I am a button</button>
 ```
 
-The code above will generate an element like the following:
+### Router link active exact
 
-```jsx
-<div>
-    <a href="/route-path">Click Me</a>
-    <button>Click Me</button>
-</div>
+`router:link-active-exact={<boolean>}`
+
+If the value is true, this directive will enable us to add the class name of `router:link-active` directive only when the `router:link` directive link is an exact match of the browser url pathname but still respect dynamic matching.
+
+Ex.
+
+```typescript
+<button
+    router:link="/some/url/123"
+    router:link-active="i-am-active"
+    router:link-active-exact={true}
+>I am a button</button>
 ```
-
-If the the <a\> or <button\> element is clicked. We will be redirected to its respective paths.
 
 ## Router guard
 
 Router guard is another way to check if a component can activate or not.
-It can also run a block of codes before a route event to happen.
+It can also run a block of codes before a route can activate or deactivate.
 
-Here's an example on how to create a guard.
+The following code is an example of a working guard codes but without functions yet.
 
-```javascript
-import { Guard, BaseGuard } from '@munster-dev/core';
-import { navigate } from '@munster-dev/router';
+```typescript
+import { Guard } from '@munster-dev/router';
+
+@Guard()
+export class AuthGuard {
+}
+```
+
+### Can activate
+
+The `canActivate` method can help us add additional checking if a component is allowed to activate.
+
+```typescript
+import { Guard, RouterService } from '@munster-dev/router';
 import { AuthService } from './auth.service';
 
 @Guard()
-export class AuthGuard extends BaseGuard {
+export class AuthGuard {
 
-    constructor(private authService: AuthService) {}
+    constructor(
+        private authService: AuthService,
+        private routerService: RouterService
+    ) {}
 
     public override canActivate(): Observable<boolean> | boolean {
-
         if (this.authService.isLoggedIn) {
             return true;
         }
-
-        navigate('/guest/route');
+        this.routerService.navigate('/guest/route');
         return false;
     }
 }
 ```
 
-If `canActivate` method returns true, then the component can activate and cannot if otherwise.
+### Can deactivate
 
-## Lazy loading
+The `canDeactivate` method can help us add additional checking if a component is allowed to deactivate.
+
+```typescript
+import { Guard } from '@munster-dev/router';
+import { ChangesService } from './changes.service';
+
+@Guard()
+export class ChangesGuard {
+
+    constructor(private changesService: ChangesService) {}
+
+    public override canDeactivate(): Observable<boolean> | boolean {
+        return !this.changesService.hasChanges;
+    }
+}
+```
+
+## Router module
+
+`import { RouterModule } from '@munster-dev/router';
+
+Importing router module to our module will give us all the functionalities of the router since router module exports all the necessary elements to use the router.
+
+```typescript
+@Module({
+    exports: {
+        directives: [RouterDirective],
+        services: [RouterService],
+        components: [Route]
+    }
+})
+export class RouterModule extends BaseModule {}
+```
+
+## Router service
+
+`import { RouterService } from '@munster-dev/router'`;
+
+Router service will provide us some useful functionalities to control the route, get router data, and watch for events.
+
+To use the router service we need to inject it to our component.
+
+Ex.
+
+```typescript
+import { Component } from '@munster-dev/core';
+import { RouterService } from '@munster-dev/router';
+
+@Component('app-greeting')
+export class Greeting {
+    constructor(private routerService: RouterService) {}
+    ...
+}
+```
+
+### Navigate
+
+Router service offers `navigate(url, state, title, replaceState)` method to navigate to a url programmatically.
+
+Ex.
+
+```typescript
+import { Component } from '@munster-dev/core';
+import { RouterService } from '@munster-dev/router';
+
+@Component('app-greeting')
+export class Greeting {
+    constructor(private routerService: RouterService) { }
+
+    onInit() {
+        setTimeout(() => {
+            this.routerService.navigate('/some/url');
+        }, 1000);
+    }
+}
+```
+
+| Parameters | Description |
+| --- | --- |
+| url | The url that we want to navigate to. This parameter is required. |
+| state | An object, used as the state in history.pushState api. This parameter is not required. |
+| title | A string, used as the title in history.pushState api. This parameter is not required. |
+| replaceState | A boolean, indicates if we use history.replaceState or history.pushState during navigation. |
+
+### On route change
+
+This will allow us to subscribe to route change event using `onRouteChange` property of the router service.
+
+Ex.
+
+```typescript
+import { Component } from '@munster-dev/core';
+import { RouterService } from '@munster-dev/router';
+
+@Component('app-greeting')
+export class Greeting {
+    constructor(private routerService: RouterService) { }
+
+    onInit() {
+        this.routerService.onRouteChange.subscribe(() => {
+            console.log('route has change');
+        });
+    }
+}
+```
+
+In the example above, the component will log `route has change` in the console every time the route will change.
+
+Since we subscribed to route change event, it is a good idea to remove all the subscriptions made when the component is destroyed to avoid memory leak.
+
+Ex.
+
+```typescript
+import { Component, Subscription } from '@munster-dev/core';
+import { RouterService } from '@munster-dev/router';
+
+@Component('app-greeting')
+export class Greeting {
+
+    subscription: Subscription;
+
+    constructor(private routerService: RouterService) { }
+
+    onInit() {
+        this.subscription = this.routerService.onRouteChange.subscribe(() => {
+            console.log('route has change');
+        });
+    }
+
+    onDestroy() {
+        this.subscription.unsubscribe();
+    }
+}
+```
+
+### Router params
+
+We can also get the router parameters using the router service.
+More information about this route params are found in the [dynamic route matching](#dynamic-route-matching) section.
+
+Ex.
+
+```typescript
+import { Component } from '@munster-dev/core';
+import { RouterService } from '@munster-dev/router';
+
+@Component('app-greeting')
+export class Greeting {
+    constructor(private routerService: RouterService) { }
+
+    onInit() {
+        const params = this.routerService.params;
+        console.log(params);
+    }
+}
+```
+
+## Dynamic route matching
+
+Dynamic route matching is a way to match a route path segment into its matching browser url pathname segment.
+A dynamic segment is denoted by a colon `:` followed by the segment name. ex. `/:userId`.
+The value of the dynamic segments are call the router parameters.
+
+Here's a table of dynamic routes and its corresponding values as a router parameter:
+
+| component path        | browser url pathname  | router params                 |
+| ---                   | ---                   | ---                           |
+| /:path                | /100                  | { path: 100 }                 |
+| /user/:userId         | /user/123             | { userId: 123 }               |
+| /post/:postId/:userId | /post/1/123           | { postId: 1, userId: 123 }    |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Lazy loading a module
 
 To lazy load a module or load a module on demand, we can use the `module` property of a route.
 
-Here's an example on how to use lazy loading in route:
+Ex.
 
 #### The module
 
 ```typescript
-import { Module } from '@munster-dev/core';
-import { SampleComponent } from './sample.component';
+// ./greeting.module
+import { Module, BaseModule } from '@munster-dev/module';
+import { Greeting } from './greeting.component';
 
 @Module({
-    rootComponent: SampleComponent
+    root: Greeting
 })
-export class LazyLoadedModule { }
+export class GreetingModule extends BaseModule { }
 ```
 
 #### The route
 
 ```typescript
-<div>
-    <app-route prop:path="/sample/path" prop:module={() => import('./lazy-loaded.module').then(m => m.LazyLoadedModule)} />
-</div>
+<app-route
+    prop:path="/sample/path"
+    prop:module={() => import('./greeting.module').then(m => m.GreetingModule)}
+/>
 ```
 
-The example above will display the component registered as a root component in the `LazyLoadedModule` when the route activates.
+The example above will display the component registered as a root component in the `GreetingModule` when the route is allowed to activate.

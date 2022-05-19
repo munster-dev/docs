@@ -26,6 +26,9 @@ module.exports = {
       'store.md',
       'http.md'
     ],
+    'Useful Topics': [
+      'available-pipes.md'
+    ],
     CLI: [
       'cli-what-is-cli.md',
       'cli-installation.md',

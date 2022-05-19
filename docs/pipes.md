@@ -103,7 +103,6 @@ https://github.com/angular/angular/blob/main/packages/common/src/pipes/date_pipe
 -->
 | Pipe | Description |
 | --- | --- |
-<!-- | [DatePipe](/pipes/date)           | Formats the date depending on the pipe parameters. | -->
 | [UppercasePipe](./available-pipes#lowercasepipe) | Transform string into uppercase. |
 | [LowercasePipe](./available-pipes#uppercasepipe) | Transform string into lowercase. |
 

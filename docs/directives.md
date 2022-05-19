@@ -68,7 +68,7 @@ After view is initialized `this.elem` property should now contain a reference to
 `prop:<name>`
 
 Prop directive is a directive that allows developers to pass any type of data from parent to child.
-Check [props](/props) for more information about this directive.
+Check [props](./props) for more information about this directive.
 
 Ex.
 

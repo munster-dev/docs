@@ -66,5 +66,5 @@ It is recommended to use the `@Bind` decorator to bind the `this` context of the
 
 :::danger
 Bind decorator might throw an error because of interfaces in it's arguments.
-Please check the [Bind](./other-useful-docs/bind) documentation to fix the error.
+Please check the [Bind decorator](./bind-decorator) documentation to fix the error.
 :::

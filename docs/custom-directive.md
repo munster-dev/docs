@@ -9,7 +9,7 @@ Custom directives are classes that manipulates an element in our MunsterJS appli
 
 ## Creating a custom directive
 
-To create a custom directive, we can use the [cli](/cli) to automatically generate a directive file with boilerplate codes or we can manually create a file and write the code from scratch.
+To create a custom directive, we can use the [cli](/cli-what-is-cli) to automatically generate a directive file with boilerplate codes or we can manually create a file and write the code from scratch.
 
 The following code is an example of a working directive codes but without functions yet.
 

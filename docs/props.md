@@ -6,7 +6,7 @@ slug: /props
 ---
 
 Props is a directive that allows developers to pass any type of data from parent to child.
-It is more advance than [attributes](./attributes) since attributes can only pass string, number or boolean to child component.
+It is more advance than [observed attributes](./observed-attributes) since attributes can only pass string, number or boolean to child component.
 
 ## Syntax
 

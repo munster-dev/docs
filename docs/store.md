@@ -25,7 +25,7 @@ yarn add @munster-dev/store
 ## Register the store
 
 Store needs to be registered as a service before we can use it.
-Please check the [services](/services) for information on how to register a service.
+Please check the [services](./services) for information on how to register a service.
 
 It is recommended that we register the store in the global container.
 

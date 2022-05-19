@@ -27,7 +27,8 @@ module.exports = {
       'http.md'
     ],
     'Useful Topics': [
-      'available-pipes.md'
+      'available-pipes.md',
+      'bind-decorator.md'
     ],
     CLI: [
       'cli-what-is-cli.md',

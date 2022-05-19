@@ -11,7 +11,7 @@ It is recommended that all http requests and business logic are made inside a se
 
 ## Create a service
 
-To create a service, we can use the [cli](/cli) to automatically generate a service file with boilerplate codes or we can manually create a file and write the code from scratch.
+To create a service, we can use the [cli](./cli-what-is-cli) to automatically generate a service file with boilerplate codes or we can manually create a file and write the code from scratch.
 
 The following code is an example of a working service codes but without functions yet.
 

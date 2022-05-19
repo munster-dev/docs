@@ -9,7 +9,7 @@ Custom pipes allow us to create reusable transformers that can be used directly 
 
 ## Create a pipe
 
-To create a custom pipe, we can use the [cli](/cli) to automatically generate a pipe file with boilerplate codes or we can manually create a file and write the code from scratch.
+To create a custom pipe, we can use the [cli](/cli-what-is-cli) to automatically generate a pipe file with boilerplate codes or we can manually create a file and write the code from scratch.
 
 The following code is an example of a working pipe codes but without functions yet.
 
